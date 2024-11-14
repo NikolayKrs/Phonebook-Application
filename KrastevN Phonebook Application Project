@@ -1,0 +1,96 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class PhoneBookApp {
+
+	private static HashMap<String, String> phoneBook = new HashMap<>();
+	private static Scanner scanner = new Scanner(System.in);
+
+	public static void main(String[] args) {
+		boolean running = true;
+
+		System.out.println("Welcome to the Phone Book App!");
+
+		while (running) {
+			System.out.println("\n----------------------------------------");
+			System.out.println("What would you like to do?");
+			System.out.println("1. Read the phone book");
+			System.out.println("2. Add new entry");
+			System.out.println("3. Update an entry");
+			System.out.println("4. Remove an entry");
+			System.out.println("5. Exit");
+			System.out.println("----------------------------------------");
+
+			int choice = Integer.parseInt(scanner.nextLine());
+
+			switch (choice) {
+			case 1:
+				readPhoneBook();
+				break;
+			case 2:
+				addEntry();
+				break;
+			case 3:
+				updateEntry();
+				break;
+			case 4:
+				removeEntry();
+				break;
+			case 5:
+				System.out.println("Exiting the application.");
+				running = false;
+				break;
+			default:
+				System.out.println("Invalid choice. Please try again.");
+			}
+		}
+	}
+	private static void readPhoneBook() {
+		System.out.println("\n----------------------------------------");
+		if (phoneBook.isEmpty()) {
+			System.out.println("The phone book is empty.");
+		} else {
+			System.out.println("You have " + phoneBook.size() + " contacts.");
+			for (String name : phoneBook.keySet()) {
+				String phoneNumber = phoneBook.get(name);
+				System.out.println("Name = " + name + ", Phone = " + phoneNumber);
+			}
+		}
+		System.out.println("----------------------------------------");
+	}
+	private static void addEntry() {
+		System.out.print("Enter contact name: ");
+		String name = scanner.nextLine();
+		System.out.print("Enter phone number: ");
+		String phoneNumber = scanner.nextLine();
+
+		if (phoneBook.containsKey(name)) {
+			System.out.println("Contact already exists. Use the update option to change the phone number.");
+		} else {
+			phoneBook.put(name, phoneNumber);
+			System.out.println("Contact added successfully!");
+		}
+	}
+	private static void updateEntry() {
+		System.out.print("Enter the name of the contact to update: ");
+		String name = scanner.nextLine();
+		if (phoneBook.containsKey(name)) {
+			System.out.print("Enter new phone number: ");
+			String newphnumber = scanner.nextLine();
+			phoneBook.put(name, newphnumber);
+			System.out.println("Contact updated successfully!");
+		} else {
+			System.out.println("Contact not found.");
+		}
+	}
+	private static void removeEntry() {
+		System.out.print("Enter the name of the contact to delete: ");
+		String name = scanner.nextLine();
+		if (phoneBook.remove(name) != null) {
+			System.out.println("Contact deleted successfully!");
+		} else {
+			System.out.println("Contact not found.");
+		}
+	}
+}
